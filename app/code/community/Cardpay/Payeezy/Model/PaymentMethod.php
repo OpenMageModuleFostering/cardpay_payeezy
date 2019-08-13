@@ -89,7 +89,12 @@ class Cardpay_Payeezy_Model_PaymentMethod extends Mage_Payment_Model_Method_Cc
             if ($response->bank_message) {
                 Mage::throwException('Transaction Declined: ' . $response->bank_message);
             } else {
-                Mage::throwException('Transaction Error: ' . $response->Error->messages[0]->description);
+                if ($response->Error->messages[0]->description == 'Access denied') {
+                    Mage::throwException('Invalid Merchant Token: Call merchant support at (866) 588-0503 to obtain a new token');
+                } else {
+                    Mage::throwException('Transaction Error: ' . $response->Error->messages[0]->description);
+                }
+                
             }
             
         }
@@ -159,7 +164,11 @@ class Cardpay_Payeezy_Model_PaymentMethod extends Mage_Payment_Model_Method_Cc
             if ($response->bank_message) {
                 Mage::throwException('Transaction Declined: ' . $response->bank_message);
             } else {
-                Mage::throwException('Transaction Error: ' . $response->Error->messages[0]->description);
+                if ($response->Error->messages[0]->description == 'Access denied') {
+                    Mage::throwException('Invalid Merchant Token: Call merchant support at (866) 588-0503 to obtain a new token');
+                } else {
+                    Mage::throwException('Transaction Error: ' . $response->Error->messages[0]->description);
+                }
             }
         }
     }

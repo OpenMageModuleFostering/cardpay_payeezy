@@ -27,7 +27,7 @@
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
-                    <comment><![CDATA[<a href="http://www.cardpaysolutions.com/magento" target="_blank">Click here to sign up for a Payeezy merchant account</a>]]></comment>
+                    <comment><![CDATA[<a href="http://www.cardpaysolutions.com/magento?pid=09b3d658112ec88b" target="_blank">Click here to sign up for a Payeezy merchant account</a>]]></comment>
                     <fields>
                         <active translate="label">
                             <label>Enabled</label>
@@ -58,7 +58,7 @@
                         </test_mode>
                         <merchant_token translate="label">
                             <label>Merchant Token</label>
-                            <comment><![CDATA[Merchant Token provided by Payeezy after you establish your account.]]></comment>
+                            <comment><![CDATA[Merchant Token provided by Payeezy after you establish your account. Contact sales at (866) 588-0503 to obtain your merchant token.]]></comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
