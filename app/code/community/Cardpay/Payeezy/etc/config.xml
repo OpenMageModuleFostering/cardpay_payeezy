@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Cardpay Solutions, Inc.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * PHP version 5
+ * 
+ * @category  Cardpay
+ * @package   Cardpay_Payeezy
+ * @copyright Copyright (c) 2015 Cardpay Solutions, Inc. (http://www.cardpaysolutions.com)
+ * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ */
+-->
+<congig>
+    <modules>
+        <Cardpay_Payeezy>
+            <version>1.0.0</version>
+        </Cardpay_Payeezy>
+    </modules>
+    <global>
+        <blocks>
+            <payeezy>
+                <class>Cardpay_Payeezy_Block</class>
+            </payeezy>
+        </blocks>
+        <models>
+            <payeezy>
+                <class>Cardpay_Payeezy_Model</class>
+                <resourceModel>payeezy_resource</resourceModel>
+            </payeezy>
+            <payeezy_resource>
+                <class>Cardpay_Payeezy_Model_Resource</class>
+                <entities>
+                    <creditcard>
+                        <table>payeezy_credit_card</table>
+                    </creditcard>
+                </entities>
+            </payeezy_resource>
+        </models>
+        <resources>
+            <payeezy_setup>
+                <setup>
+                    <module>Cardpay_Payeezy</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </payeezy_setup>
+            <payeezy_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </payeezy_write>
+            <payeezy_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </payeezy_read>
+        </resources>
+        <helpers>
+            <payeezy>
+                <class>Cardpay_Payeezy_Helper</class>
+            </payeezy>
+        </helpers>
+    </global>
+    <default>
+        <payment>
+            <payeezy>
+                <active>0</active>
+                <model>payeezy/paymentMethod</model>
+                <order_status>processing</order_status>
+                <title>Credit Card (Payeezy)</title>
+                <cctypes>VI,MC,AE,DI,JCB</cctypes>
+                <payment_action>authorize</payment_action>
+                <allowspecific>0</allowspecific>
+                <currency>USD</currency>
+                <useccv>1</useccv>
+                <use_vault>1</use_vault>
+            </payeezy>
+        </payment>
+    </default>
+    <frontend>
+        <layout>
+            <updates>
+                <payeezy module="Cardpay_Payeezy">
+                    <file>payeezy.xml</file>
+                </payeezy>
+            </updates>
+        </layout>
+        <routers>
+            <customer>
+                <args>
+                    <modules>
+                        <Cardpay_Payeezy after="Mage_Customer">Cardpay_Payeezy</Cardpay_Payeezy>
+                    </modules>
+                </args>
+            </customer>
+        </routers>
+        <translate>
+            <modules>
+                <Cardpay_Payeezy>
+                    <files>
+                        <default>Cardpay_Payeezy.csv</default>
+                    </files>
+                </Cardpay_Payeezy>
+            </modules>
+        </translate>
+    </frontend>
+</congig>
