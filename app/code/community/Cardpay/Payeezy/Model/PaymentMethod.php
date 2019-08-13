@@ -69,7 +69,6 @@ class Cardpay_Payeezy_Model_PaymentMethod extends Mage_Payment_Model_Method_Cc
     public function authorize(Varien_Object $payment, $amount)
     {
         $post = Mage::app()->getRequest()->getPost();
-        $saveCard = $post['payment']['save_card'];
         $payload = $this->getPayload($payment, $amount, "authorize");
         $headerArray = $this->hmacAuthorizationToken($payload);
         $response = json_decode($this->postTransaction($payload, $headerArray));
@@ -81,7 +80,7 @@ class Cardpay_Payeezy_Model_PaymentMethod extends Mage_Payment_Model_Method_Cc
                 ->setParentTransactionId(null)
                 ->setCcAvsStatus(Mage::helper('payeezy')->getAvsResponse($response->avs))
                 ->setCcCidStatus(Mage::helper('payeezy')->getCvvResponse($response->cvv2));
-            if ($saveCard) {
+            if (isset($post['payment']['save_card'])) {
                 $this->saveCard($payment, $response->token->token_data->value);
             }
             return $this;
@@ -144,7 +143,6 @@ class Cardpay_Payeezy_Model_PaymentMethod extends Mage_Payment_Model_Method_Cc
     public function purchase(Varien_Object $payment, $amount)
     {
         $post = Mage::app()->getRequest()->getPost();
-        $saveCard = $post['payment']['save_card'];
         $payload = $this->getPayload($payment, $amount, "purchase");
         $headerArray = $this->hmacAuthorizationToken($payload);
         $response = json_decode($this->postTransaction($payload, $headerArray));
@@ -156,7 +154,7 @@ class Cardpay_Payeezy_Model_PaymentMethod extends Mage_Payment_Model_Method_Cc
                 ->setParentTransactionId(null)
                 ->setCcAvsStatus(Mage::helper('payeezy')->getAvsResponse($response->avs))
                 ->setCcCidStatus(Mage::helper('payeezy')->getCvvResponse($response->cvv2));
-            if ($saveCard) {
+            if (isset($post['payment']['save_card'])) {
                 $this->saveCard($payment, $response->token->token_data->value);
             }
             return $this;
@@ -326,9 +324,8 @@ class Cardpay_Payeezy_Model_PaymentMethod extends Mage_Payment_Model_Method_Cc
     public function getPayload(Varien_Object $payment, $amount, $transactionType)
     {
         $post = Mage::app()->getRequest()->getPost();
-        $token = $post['payment']['token'];
-        if ($token) {
-            $card = $this->getSavedCard($token);
+        if (isset($post['payment']['token']) && !empty($post['payment']['token'])) {
+            $card = $this->getSavedCard($post['payment']['token']);
             $payment->setCcExpYear($card->getCcExpYear())
                 ->setCcExpMonth($card->getCcExpMonth())
                 ->setCcType($card->getCcType())
@@ -354,7 +351,7 @@ class Cardpay_Payeezy_Model_PaymentMethod extends Mage_Payment_Model_Method_Cc
         }
 
         if ($transactionType == "authorize" || $transactionType == "purchase") {
-            if ($token) {
+            if (isset($card)) {
                 $data = array(
                     'merchant_ref' => $this->processInput($orderId),
                     'transaction_type' => $this->processInput($transactionType),
@@ -371,11 +368,11 @@ class Cardpay_Payeezy_Model_PaymentMethod extends Mage_Payment_Model_Method_Cc
                         )
                     ),
                     'billing_address' => array(
-                        'street' => $this->processInput($billing->getStreet(1)),
-                        'zip_postal_code' => $this->processInput($billing->getPostcode())
+                        'street' => $this->processInput(substr($billing->getStreet(1), 0, 30)),
+                        'zip_postal_code' => $this->processInput(substr($billing->getPostcode(), 0, 10))
                     ),
                     'level2' => array(
-                        'tax1_amount' => $this->processInput($order->getTaxAmount()),
+                        'tax1_amount' => number_format($order->getTaxAmount(), '2', '.', ''),
                         'customer_ref' => $this->processInput($orderId)
                     )
                 );
@@ -394,11 +391,11 @@ class Cardpay_Payeezy_Model_PaymentMethod extends Mage_Payment_Model_Method_Cc
                         'cvv' => $this->processInput($payment->getCcCid())
                     ),
                     'billing_address' => array(
-                        'street' => $this->processInput($billing->getStreet(1)),
-                        'zip_postal_code' => $this->processInput($billing->getPostcode())
+                        'street' => $this->processInput(substr($billing->getStreet(1), 0, 30)),
+                        'zip_postal_code' => $this->processInput(substr($billing->getPostcode(), 0, 10))
                     ),
                     'level2' => array(
-                        'tax1_amount' => $this->processInput($order->getTaxAmount()),
+                        'tax1_amount' => number_format($order->getTaxAmount(), '2', '.', ''),
                         'customer_ref' => $this->processInput($orderId)
                     )
                 );
@@ -428,7 +425,7 @@ class Cardpay_Payeezy_Model_PaymentMethod extends Mage_Payment_Model_Method_Cc
     public function getTokenPayload($card)
     {
         $yr = substr($card->getCcExpYear(), -2);
-        $expDate = sprintf('%02d%02d', $card->getCcExpMonth, $yr);
+        $expDate = sprintf('%02d%02d', $card->getCcExpMonth(), $yr);
         $testMode = $this->getConfigData('test_mode');
         $data = '';
 

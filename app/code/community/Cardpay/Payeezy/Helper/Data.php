@@ -80,7 +80,11 @@ class Cardpay_Payeezy_Helper_Data extends Mage_Core_Helper_Abstract
             '7' => 'Cardholder name incorrect, billing address matches',
             '8' => 'Cardholder name, billing address, and postal code are all incorrect'
         );
-        return $avsResponses[$code];
+        if (array_key_exists($code, $avsResponses)) {
+            return $avsResponses[$code];
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -100,6 +104,10 @@ class Cardpay_Payeezy_Helper_Data extends Mage_Core_Helper_Abstract
             'U' => 'Issuer is not certified and/or has not provided visa encryption keys',
             'I' => 'CVV2 code is invalid or empty'
         );
-        return $cvvResponses[$code];
+        if (array_key_exists($code, $cvvResponses)) {
+            return $cvvResponses[$code];
+        } else {
+            return '';
+        }
     }
 }
