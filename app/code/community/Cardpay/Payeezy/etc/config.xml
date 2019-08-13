@@ -20,7 +20,7 @@
 <congig>
     <modules>
         <Cardpay_Payeezy>
-            <version>1.0.4</version>
+            <version>1.0.5</version>
         </Cardpay_Payeezy>
     </modules>
     <global>
@@ -73,7 +73,7 @@
         <payment>
             <payeezy>
                 <active>0</active>
-                <model>payeezy/paymentMethod</model>
+                <model>payeezy/paymentmethod</model>
                 <order_status>processing</order_status>
                 <title>Credit Card (Payeezy)</title>
                 <cctypes>VI,MC,AE,DI,JCB</cctypes>
