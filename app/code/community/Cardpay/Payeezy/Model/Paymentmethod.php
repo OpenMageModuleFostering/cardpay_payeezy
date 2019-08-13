@@ -80,7 +80,7 @@ class Cardpay_Payeezy_Model_PaymentMethod extends Mage_Payment_Model_Method_Cc
                 ->setParentTransactionId(null)
                 ->setCcAvsStatus(Mage::helper('payeezy')->getAvsResponse($response->avs))
                 ->setCcCidStatus(Mage::helper('payeezy')->getCvvResponse($response->cvv2));
-            if (isset($post['payment']['save_card'])) {
+            if (isset($post['payment']['save_card']) || ($this->getConfigData('use_vault') == 2 && empty($post['payment']['token']))) {
                 $this->saveCard($payment, $response->token->token_data->value);
             }
             return $this;
@@ -154,7 +154,7 @@ class Cardpay_Payeezy_Model_PaymentMethod extends Mage_Payment_Model_Method_Cc
                 ->setParentTransactionId(null)
                 ->setCcAvsStatus(Mage::helper('payeezy')->getAvsResponse($response->avs))
                 ->setCcCidStatus(Mage::helper('payeezy')->getCvvResponse($response->cvv2));
-            if (isset($post['payment']['save_card'])) {
+            if (isset($post['payment']['save_card']) || ($this->getConfigData('use_vault') == 2 && empty($post['payment']['token']))) {
                 $this->saveCard($payment, $response->token->token_data->value);
             }
             return $this;

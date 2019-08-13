@@ -39,7 +39,7 @@ class Cardpay_Payeezy_Block_Form extends Mage_Payment_Block_Form_Cc
      * 
      * @return bool if can save
      */
-    public function canSaveCard()
+	public function canSaveCard()
     {
         $methodRegister = Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER;
         if (Mage::getModel('payeezy/paymentmethod')->getConfigData('use_vault')

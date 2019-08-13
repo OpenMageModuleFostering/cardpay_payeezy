@@ -20,7 +20,7 @@
 <congig>
     <modules>
         <Cardpay_Payeezy>
-            <version>1.0.6</version>
+            <version>1.0.7</version>
         </Cardpay_Payeezy>
     </modules>
     <global>
@@ -81,7 +81,7 @@
                 <allowspecific>0</allowspecific>
                 <currency>USD</currency>
                 <useccv>1</useccv>
-                <use_vault>1</use_vault>
+                <use_vault>0</use_vault>
             </payeezy>
         </payment>
     </default>
