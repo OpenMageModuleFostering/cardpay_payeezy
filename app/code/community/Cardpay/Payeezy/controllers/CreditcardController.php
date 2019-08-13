@@ -92,7 +92,7 @@ class Cardpay_Payeezy_CreditCardController extends Mage_Customer_AccountControll
             $card->addData($data['payment']);
             $card->setData('customer_id', $customerId);
             $card->setData('cardholder_name', $cardholderName);
-            $payeezy = Mage::getModel('payeezy/paymentmethod');
+            $payeezy = Mage::getModel('payeezy/paymentMethod');
             try {
                 $token = $payeezy->verify($card);
             } catch (Exception $e) {
@@ -135,7 +135,7 @@ class Cardpay_Payeezy_CreditCardController extends Mage_Customer_AccountControll
             $card->addData($data['payment']);
             $card->setData('customer_id', $customerId);
             $card->setData('cardholder_name', $cardholderName);
-            $payeezy = Mage::getModel('payeezy/paymentmethod');
+            $payeezy = Mage::getModel('payeezy/paymentMethod');
             try {
                 $token = $payeezy->verify($card);
             } catch (Exception $e) {

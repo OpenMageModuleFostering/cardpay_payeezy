@@ -182,7 +182,7 @@ class Cardpay_Payeezy_Block_Creditcard extends Mage_Core_Block_Template
     public function getCcAvailableTypes()
     {
         $types = Mage::getSingleton('payment/config')->getCcTypes();
-        if ($method = Mage::getModel('payeezy/paymentmethod')) {
+        if ($method = Mage::getModel('payeezy/paymentMethod')) {
             $availableTypes = $method->getConfigData('cctypes');
             if ($availableTypes) {
                 $availableTypes = explode(',', $availableTypes);
@@ -230,7 +230,7 @@ class Cardpay_Payeezy_Block_Creditcard extends Mage_Core_Block_Template
      */
     public function hasVerification()
     {
-        $method = Mage::getModel('payeezy/paymentmethod');
+        $method = Mage::getModel('payeezy/paymentMethod');
         return $method->getConfigData('useccv');
     }
 }
