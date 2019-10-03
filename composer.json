@@ -1,7 +1,7 @@
 {
-    "name": "OpenMageModuleFostering\/Cardpay_Payeezy",
+    "name": "openmage-module-fostering\/cardpay_payeezy",
     "type": "magento-module",
-    "license": "Open-Software-License-(OSL)",
+    "license": "OSL-3.0",
     "homepage": "",
     "description": "First Data Payeezy payment extension with TransArmor.",
     "authors": [
